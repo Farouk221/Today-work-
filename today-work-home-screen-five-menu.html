@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14213d">
+<title>Today Work — Admin & Employee</title>
+<style>
+:root{--navy:#14213d;--blue:#315efb;--bg:#f4f6fb;--ink:#172033;--muted:#718096;--line:#e7ebf3;--green:#159b72;--red:#d94b58}
+*{box-sizing:border-box}
+html{min-width:0;overflow-x:hidden}
+body{margin:0;min-width:0;overflow-x:hidden;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:13px;padding:12px 16px;background:var(--blue);color:#fff;font-weight:700;min-height:44px;transition:transform .15s}
+button:active{transform:scale(.98)}
+input,select,textarea{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;min-height:44px}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #315efb15}
+label{display:block;font-size:14px;font-weight:700;margin:12px 0 7px}
+.muted{color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.app{width:100%;max-width:900px;margin:auto;min-height:100vh;padding-bottom:105px}
+.top{background:linear-gradient(135deg,#14213d,#263f70);color:#fff;padding:25px 20px 32px;border-radius:0 0 28px 28px;box-shadow:0 8px 25px #14213d25}
+.toprow,.row{display:flex;justify-content:space-between;align-items:center;gap:10px;min-width:0}
+.brand{font-size:22px;font-weight:850;letter-spacing:.2px}.brand small{display:block;font-size:11px;letter-spacing:1px;color:#bdcbed;margin-top:3px}
+.avatar{width:44px;height:44px;flex:0 0 44px;border-radius:15px;display:grid;place-items:center;background:#ffffff20;border:1px solid #ffffff30;font-weight:800;font-size:18px}
+.greeting{margin-top:25px;font-size:25px;font-weight:800}.greeting span{color:#9eb6ff}.sub{color:#c2cce0;font-size:13px;margin-top:6px}
+main{padding:18px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+.stat,.panel{min-width:0;background:#fff;border:1px solid var(--line);border-radius:19px;padding:16px;box-shadow:0 5px 20px #14213d08}
+.stat{position:relative;overflow:hidden}.stat .cap{font-size:13px;color:var(--muted);font-weight:650}.stat .num{font-size:25px;font-weight:850;margin-top:8px;color:var(--navy);overflow-wrap:anywhere}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:25px 0 12px}.sectionhead h2{font-size:18px;margin:0;font-weight:800}
+.link{background:transparent;color:var(--blue);padding:7px 5px;min-height:40px}
+.panel{margin-bottom:13px}.task,.itemline{padding:13px 0;border-bottom:1px solid var(--line);min-width:0}.task:last-child,.itemline:last-child{border:0}
+.tasktitle{font-weight:750;font-size:15px;overflow-wrap:anywhere}
+.tag{font-size:12px;padding:6px 10px;border-radius:20px;background:#edf2ff;color:#315efb;font-weight:700;white-space:nowrap}
+.tag.done{background:#e7f7f1;color:#13845f}.tag.high{background:#fff0ef;color:#c9434d}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(15px);border-top:1px solid var(--line);z-index:5;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
+.nav{max-width:900px;margin:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
+.nav button{background:transparent;color:#8490a5;padding:6px 2px;font-size:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:54px;border-radius:12px;width:100%}
+.nav button.active{color:var(--blue);background:#edf2ff}
+.ico{font-size:21px;line-height:1}
+.view{display:none;min-width:0}.view.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.primary{width:100%;margin-top:15px}.secondary{background:#edf2ff;color:var(--blue)}.danger{background:#fff0ef;color:var(--red)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}
+.loginwrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(145deg,#14213d,#315efb)}
+.loginbox{width:min(420px,100%);background:#fff;padding:27px;border-radius:25px;box-shadow:0 20px 60px #0003}
+.loginbrand{font-size:29px;font-weight:900;color:var(--navy)}
+.notice{padding:13px;border-radius:13px;background:#fff8e6;color:#795a10;font-size:13px;line-height:1.7;margin:15px 0}
+.empty{text-align:center;color:var(--muted);padding:25px 8px;font-size:14px}
+.hidden{display:none!important}.pillrow{display:flex;gap:8px;flex-wrap:wrap}.pillrow button{font-size:13px;padding:9px 13px;min-height:42px}
+h3{font-size:16px;margin:0 0 12px;font-weight:800}details{margin-top:12px}summary{cursor:pointer;font-weight:700;font-size:14px;padding:8px 0}
+.stat b{font-size:16px}textarea{resize:vertical}
+
+.quick-head{display:flex;justify-content:space-between;align-items:center;margin:3px 2px 12px;gap:8px}
+.quick-head h2{font-size:18px;margin:0;font-weight:850;color:var(--navy)}
+.quick-head span{font-size:12px;color:var(--muted)}
+.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:23px}
+.quick-card{min-width:0;min-height:142px;padding:14px;text-align:left;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;gap:5px;box-shadow:0 5px 18px #14213d0a}
+.quick-card:active{transform:scale(.98)}
+.quick-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:#edf2ff;font-size:21px;margin-bottom:3px}
+.accounts-card .quick-icon{background:#e9f8f1}.customers-card .quick-icon{background:#fff4e6}.tasks-card .quick-icon{background:#f1edff}
+.quick-title{font-size:15px;font-weight:850;line-height:1.35}
+.quick-sub{font-size:11px;color:var(--muted);font-weight:500;line-height:1.4}
+.quick-arrow{font-size:12px;color:var(--blue);font-weight:800;margin-top:auto;padding-top:5px}
+@media(max-width:350px){.quick-card{padding:11px;min-height:138px}.quick-title{font-size:14px}.quick-sub{font-size:10px}}
+@media(min-width:650px){.cards{grid-template-columns:repeat(4,minmax(0,1fr))}main{padding:25px}.top{padding:30px}.greeting{font-size:29px}}
+@media(max-width:420px){main{padding:13px}.top{padding:21px 16px 26px}.stat{padding:13px}.stat .num{font-size:22px}.nav button{padding-inline:1px;font-size:10px}.panel{padding:14px}.greeting{font-size:23px}}
+@media(max-width:340px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.cards{gap:8px}.stat .num{font-size:20px}}
+</style>
+</head>
+<body>
+<div id="loginScreen" class="loginwrap">
+ <div class="loginbox">
+  <div class="loginbrand">Today Work</div><p class="muted">কাজ, টিম ও দৈনিক হিসাব—এক জায়গায়</p>
+  <div class="notice">প্রাথমিক ডেমো লগইন: ইউজারনেম <b>admin</b>, পাসওয়ার্ড <b>1234</b>। প্রথম লগইনের পর পাসওয়ার্ড পরিবর্তন করুন। এই ডেমোতে তথ্য শুধু এই ডিভাইসের ব্রাউজারে থাকে।</div>
+  <label for="loginUser">ইউজারনেম</label><input id="loginUser" autocomplete="username" placeholder="আপনার ইউজারনেম">
+  <label for="loginPass">পাসওয়ার্ড</label><input id="loginPass" type="password" autocomplete="current-password" placeholder="পাসওয়ার্ড">
+  <button class="primary" onclick="login()">লগইন করুন</button><p id="loginError" style="color:#c9434d" role="alert"></p>
+ </div>
+</div>
+<div id="app" class="app hidden">
+<header class="top">
+ <div class="toprow"><div class="brand">Today Work<small>ADMIN & EMPLOYEE WORKSPACE</small></div><div class="avatar" id="avatar">A</div></div>
+ <div class="greeting">স্বাগতম, <span id="welcomeName">Admin</span></div><div class="sub" id="todayText"></div>
+</header>
+<main>
+<section id="home" class="view active">
+ <div class="quick-head"><h2>দ্রুত কাজ</h2><span>এক ট্যাপে খুলুন</span></div>
+ <div class="quick-grid">
+  <button class="quick-card tasks-card" onclick="showView('calendar')"><span class="quick-icon">🗓️</span><span class="quick-title">ক্যালেন্ডার</span><span class="quick-sub">তারিখ অনুযায়ী কাজ দেখুন</span><span class="quick-arrow">খুলুন →</span></button>
+  <button class="quick-card accounts-card" id="quickReports" onclick="showView('reports')"><span class="quick-icon">📊</span><span class="quick-title">রিপোর্ট</span><span class="quick-sub">কাজ ও হিসাবের সারাংশ</span><span class="quick-arrow">খুলুন →</span></button>
+  <button class="quick-card customers-card" id="quickTeam" onclick="showView('team')"><span class="quick-icon">👥</span><span class="quick-title">টিম ব্যবস্থাপনা</span><span class="quick-sub">কর্মচারী ও দায়িত্ব</span><span class="quick-arrow">খুলুন →</span></button>
+  <button class="quick-card recharge-card" onclick="showView('profile')"><span class="quick-icon">⚙️</span><span class="quick-title">অ্যাকাউন্ট / পাসওয়ার্ড</span><span class="quick-sub">প্রোফাইল ও পাসওয়ার্ড পরিবর্তন</span><span class="quick-arrow">খুলুন →</span></button>
+ </div>
+ <div class="cards">
+  <div class="stat"><div class="cap">মোট কাজ</div><div class="num" id="statTotal">0</div></div>
+  <div class="stat"><div class="cap">সম্পন্ন</div><div class="num" id="statDone">0</div></div>
+  <div class="stat"><div class="cap">চলমান</div><div class="num" id="statOpen">0</div></div>
+  <div class="stat"><div class="cap">টিম সদস্য</div><div class="num" id="statTeam">0</div></div>
+ </div>
+ <div class="sectionhead"><h2>আজকের কাজ</h2><button class="link" onclick="showView('tasks')">সব দেখুন →</button></div><div class="panel" id="homeTasks"></div>
+ <div class="sectionhead"><h2>দৈনিক হিসাব</h2><button class="link" onclick="showView('accounts')">বিস্তারিত →</button></div>
+ <div class="panel row"><div><div class="muted">মোট আয়</div><b id="homeIncome">৳0</b></div><div><div class="muted">মোট ব্যয়</div><b id="homeExpense">৳0</b></div><div><div class="muted">ব্যালেন্স</div><b id="homeBalance">৳0</b></div></div>
+</section>
+<section id="tasks" class="view">
+ <div class="sectionhead"><h2>কাজের তালিকা</h2></div>
+ <div id="taskFormPanel" class="panel"><h3>নতুন কাজ যোগ করুন</h3><label for="taskTitle">কাজের নাম</label><input id="taskTitle" placeholder="আজকের কাজ">
+  <div class="formgrid"><div><label for="taskAssignee">দায়িত্বপ্রাপ্ত</label><select id="taskAssignee"></select></div><div><label for="taskDate">তারিখ</label><input id="taskDate" type="date"></div><div><label for="taskPriority">অগ্রাধিকার</label><select id="taskPriority"><option>সাধারণ</option><option>জরুরি</option></select></div><div><label for="taskTime">সময়</label><input id="taskTime" type="time"></div></div>
+  <button class="primary" onclick="addTask()">কাজ যোগ করুন</button>
+ </div>
+ <div class="panel"><div class="pillrow"><button class="secondary" onclick="setTaskFilter('all')">সব</button><button class="secondary" onclick="setTaskFilter('open')">চলমান</button><button class="secondary" onclick="setTaskFilter('done')">সম্পন্ন</button></div><div id="taskList"></div></div>
+</section>
+<section id="calendar" class="view"><div class="sectionhead"><h2>কাজের সময়সূচি</h2></div><div class="panel"><label for="calendarDate">তারিখ</label><input type="date" id="calendarDate" onchange="renderCalendar()"><div id="calendarList"></div></div></section>
+<section id="accounts" class="view">
+ <div class="sectionhead"><h2>দৈনিক হিসাব</h2></div>
+ <div class="panel"><h3>নতুন এন্ট্রি</h3><div class="formgrid"><div><label for="moneyType">ধরন</label><select id="moneyType"><option value="income">আয়</option><option value="expense">ব্যয়</option></select></div><div><label for="moneyAmount">পরিমাণ</label><input id="moneyAmount" type="number" min="0.01" step="0.01"></div><div class="full"><label for="moneyNote">বিবরণ</label><input id="moneyNote"></div><div class="full"><label for="moneyDate">তারিখ</label><input type="date" id="moneyDate"></div></div><button class="primary" onclick="addMoney()">হিসাব সংরক্ষণ</button></div>
+ <div class="cards"><div class="stat"><div class="cap">মোট আয়</div><div class="num" id="accIncome">৳0</div></div><div class="stat"><div class="cap">মোট ব্যয়</div><div class="num" id="accExpense">৳0</div></div></div>
+ <div class="sectionhead"><h2>হিসাবের ইতিহাস</h2></div><div class="panel" id="moneyList"></div>
+</section>
+<section id="recharge" class="view">
+ <div class="sectionhead"><h2>মোবাইল রিচার্জ হিসাব</h2></div>
+ <div class="panel"><h3>নতুন রিচার্জ এন্ট্রি</h3><div class="formgrid">
+  <div class="full"><label for="rechargePhone">মোবাইল নম্বর</label><input id="rechargePhone" type="tel" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"></div>
+  <div><label for="rechargeOperator">অপারেটর</label><select id="rechargeOperator"><option>Grameenphone</option><option>Robi</option><option>Banglalink</option><option>Airtel</option><option>Teletalk</option></select></div>
+  <div><label for="rechargeSale">রিচার্জের পরিমাণ (৳)</label><input id="rechargeSale" type="number" min="0.01" step="0.01" placeholder="যেমন ১০০"></div>
+  <div><label for="rechargeCost">আপনার ক্রয়মূল্য (৳)</label><input id="rechargeCost" type="number" min="0" step="0.01" placeholder="যেমন ৯৮"></div>
+  <div><label for="rechargeDate">তারিখ</label><input id="rechargeDate" type="date"></div>
+  <div><label for="rechargeStatus">অবস্থা</label><select id="rechargeStatus"><option value="success">সফল</option><option value="failed">ব্যর্থ</option></select></div>
+  <div class="full"><label for="rechargeNote">নোট (ঐচ্ছিক)</label><input id="rechargeNote" placeholder="লেনদেন আইডি বা অতিরিক্ত তথ্য"></div>
+ </div><p class="muted">সফল রিচার্জের বিক্রয়মূল্য আয় এবং ক্রয়মূল্য ব্যয় হিসেবে দৈনিক হিসাবেও যুক্ত হবে। ব্যর্থ রিচার্জ নগদ প্রবাহে যুক্ত হবে না।</p><button class="primary" onclick="addRecharge()">রিচার্জ হিসাব সংরক্ষণ</button></div>
+ <div class="cards"><div class="stat"><div class="cap">মোট সফল রিচার্জ</div><div class="num" id="rechargeCount">০</div></div><div class="stat"><div class="cap">মোট বিক্রয়</div><div class="num" id="rechargeSales">৳0</div></div><div class="stat"><div class="cap">মোট খরচ</div><div class="num" id="rechargeCosts">৳0</div></div><div class="stat"><div class="cap">মোট লাভ</div><div class="num" id="rechargeProfit">৳0</div></div></div>
+ <div class="sectionhead"><h2>রিচার্জের ইতিহাস</h2></div><div class="panel" id="rechargeList"></div>
+</section>
+<section id="customers" class="view">
+ <div class="sectionhead"><h2>কাস্টমার ব্যবস্থাপনা</h2></div>
+ <div class="panel"><h3>নতুন কাস্টমার যোগ করুন</h3><label for="customerName">কাস্টমারের নাম</label><input id="customerName" placeholder="কাস্টমারের নাম"><label for="customerPhone">মোবাইল নম্বর</label><input id="customerPhone" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX"><label for="customerAddress">ঠিকানা</label><textarea id="customerAddress" rows="2"></textarea><label for="customerNote">নোট (ঐচ্ছিক)</label><input id="customerNote"><button class="primary" onclick="addCustomer()">কাস্টমার সংরক্ষণ করুন</button></div>
+ <div class="cards"><div class="stat"><div class="cap">নগদ বিক্রি</div><div class="num" id="customerCashTotal">৳0</div></div><div class="stat"><div class="cap">মোট বাকিতে বিক্রি</div><div class="num" id="customerDueTotal">৳0</div></div><div class="stat"><div class="cap">বাকি আদায়</div><div class="num" id="customerPaidTotal">৳0</div></div><div class="stat"><div class="cap">অবশিষ্ট বকেয়া</div><div class="num" id="customerOutstandingTotal">৳0</div></div></div>
+ <div class="panel"><h3>কাস্টমারের লেনদেন যোগ করুন</h3><label for="ledgerCustomer">কাস্টমার নির্বাচন</label><select id="ledgerCustomer"></select><div class="formgrid"><div><label for="ledgerType">লেনদেনের ধরন</label><select id="ledgerType"><option value="cash">নগদ বিক্রি</option><option value="due">বাকিতে বিক্রি</option><option value="payment">বাকি টাকা জমা</option></select></div><div><label for="ledgerAmount">টাকার পরিমাণ</label><input id="ledgerAmount" type="number" min="0.01" step="0.01" placeholder="0"></div><div class="full"><label for="ledgerNote">বিবরণ</label><input id="ledgerNote" placeholder="পণ্যের নাম বা বিবরণ"></div></div><button class="primary" onclick="addCustomerTransaction()">লেনদেন সংরক্ষণ করুন</button></div>
+ <div class="sectionhead"><h2>কাস্টমারের তালিকা</h2></div><div class="panel"><input id="customerSearch" placeholder="নাম বা মোবাইল দিয়ে খুঁজুন" oninput="renderCustomers()"><div id="customerList"></div></div>
+</section>
+<section id="reports" class="view"><div class="sectionhead"><h2>রিপোর্ট</h2></div><div class="cards"><div class="stat"><div class="cap">মোট কাজ</div><div class="num" id="repTotal">0</div></div><div class="stat"><div class="cap">সম্পন্ন কাজ</div><div class="num" id="repDone">0</div></div><div class="stat"><div class="cap">মোট আয়</div><div class="num" id="repIncome">৳0</div></div><div class="stat"><div class="cap">মোট ব্যয়</div><div class="num" id="repExpense">৳0</div></div></div><div class="sectionhead"><h2>কর্মচারীভিত্তিক কাজ</h2></div><div class="panel" id="employeeReports"></div></section>
+<section id="team" class="view"><div class="sectionhead"><h2>টিম ব্যবস্থাপনা</h2></div><div id="employeeFormPanel" class="panel"><h3>কর্মচারী যোগ করুন</h3><label for="empName">নাম</label><input id="empName"><div class="formgrid"><div><label for="empUser">ইউজারনেম</label><input id="empUser" autocomplete="off"></div><div><label for="empPass">পাসওয়ার্ড</label><input id="empPass" type="password" autocomplete="new-password"></div></div><button class="primary" onclick="addEmployee()">কর্মচারী যোগ করুন</button></div><div class="panel" id="teamList"></div></section>
+<section id="profile" class="view"><div class="sectionhead"><h2>অ্যাকাউন্ট</h2></div><div class="panel"><b id="profileName"></b><p class="muted" id="profileRole"></p><label for="newPassword">নতুন পাসওয়ার্ড</label><input id="newPassword" type="password" autocomplete="new-password"><button class="primary" onclick="changePassword()">পাসওয়ার্ড পরিবর্তন</button><button class="primary danger" onclick="logout()">লগআউট</button></div><div class="notice">এই সংস্করণে তথ্য একই ডিভাইস/ব্রাউজারে থাকে। আলাদা ফোনে একই তথ্য দেখতে নিরাপদ অনলাইন লগইন ও ডেটাবেস সংযোগ প্রয়োজন।</div></section>
+</main>
+<nav class="bottom"><div class="nav">
+ <button class="active" data-view="home" onclick="showView('home')"><span class="ico">⌂</span>হোম</button>
+ <button data-view="tasks" onclick="showView('tasks')"><span class="ico">☑</span>কাজ</button>
+ <button data-view="accounts" onclick="showView('accounts')"><span class="ico">৳</span>হিসাব</button>
+ <button data-view="recharge" onclick="showView('recharge')"><span class="ico">▣</span>রিচার্জ</button>
+ <button data-view="customers" onclick="showView('customers')"><span class="ico">♙</span>কাস্টমার</button>
+</div></nav>
+</div>
+<script>
+'use strict';
+const KEY='todowork_data_v2';
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('todowork_data_v1')||'null')}catch(e){db=null}
+if(!db||typeof db!=='object')db={users:[{id:1,name:'Admin',username:'admin',password:'1234',role:'admin'}],tasks:[],money:[],customers:[],customerTransactions:[],mobileRecharges:[]};
+['users','tasks','money','customers','customerTransactions','mobileRecharges'].forEach(k=>{if(!Array.isArray(db[k]))db[k]=[]});
+if(!db.users.length)db.users.push({id:1,name:'Admin',username:'admin',password:'1234',role:'admin'});
+let current=null,taskFilter='all';
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();const z=d.getTimezoneOffset();return new Date(d.getTime()-z*60000).toISOString().slice(0,10)};
+const money=n=>'৳'+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert('ডিভাইসে জায়গা না থাকায় তথ্য সংরক্ষণ করা যায়নি।')}}
+function login(){
+ const u=$('loginUser').value.trim(),p=$('loginPass').value;
+ const found=db.users.find(x=>x.username===u&&x.password===p);
+ if(!found){$('loginError').textContent='ইউজারনেম বা পাসওয়ার্ড সঠিক নয়';return}
+ current=found;$('loginError').textContent='';$('loginScreen').classList.add('hidden');$('app').classList.remove('hidden');init();
+}
+function logout(){current=null;$('app').classList.add('hidden');$('loginScreen').classList.remove('hidden');$('loginPass').value=''}
+function init(){
+ $('welcomeName').textContent=current.name;$('avatar').textContent=(current.name||'A').charAt(0).toUpperCase();
+ $('todayText').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+ $('profileName').textContent=current.name;$('profileRole').textContent=current.role==='admin'?'অ্যাডমিন':'কর্মচারী';
+ ['taskDate','moneyDate','calendarDate','rechargeDate'].forEach(id=>$(id).value=today());
+ const admin=current.role==='admin';
+ $('taskFormPanel').classList.toggle('hidden',!admin);$('employeeFormPanel').classList.toggle('hidden',!admin);
+ document.querySelector('[data-view="team"]').classList.toggle('hidden',!admin);
+ document.querySelector('[data-view="reports"]').classList.toggle('hidden',!admin);
+ $('quickTeam').classList.toggle('hidden',!admin);
+ $('quickReports').classList.toggle('hidden',!admin);
+ renderAll();showView('home');
+}
+function showView(id){
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ $(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===id));
+ if(id==='tasks')renderTasks();if(id==='calendar')renderCalendar();if(id==='customers')renderCustomers();if(id==='recharge')renderRecharges();
+}
+function setTaskFilter(v){taskFilter=v;renderTasks()}
+function addEmployee(){
+ const name=$('empName').value.trim(),username=$('empUser').value.trim(),password=$('empPass').value;
+ if(!name||!username||!password)return alert('সব তথ্য পূরণ করুন');
+ if(username.length<3||password.length<4)return alert('ইউজারনেম কমপক্ষে ৩ এবং পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের দিন');
+ if(db.users.some(x=>x.username.toLowerCase()===username.toLowerCase()))return alert('এই ইউজারনেম আগে ব্যবহার হয়েছে');
+ db.users.push({id:Date.now(),name,username,password,role:'employee'});save();
+ $('empName').value=$('empUser').value=$('empPass').value='';renderAll();alert('কর্মচারী যোগ হয়েছে');
+}
+function addTask(){
+ const title=$('taskTitle').value.trim();if(!title)return alert('কাজের নাম লিখুন');
+ const assignee=Number($('taskAssignee').value)||current.id;
+ db.tasks.push({id:Date.now(),title,assignee,date:$('taskDate').value||today(),time:$('taskTime').value,priority:$('taskPriority').value,status:'open',by:current.id});
+ save();$('taskTitle').value='';$('taskTime').value='';renderAll();
+}
+function visibleTasks(){return db.tasks.filter(t=>current.role==='admin'||Number(t.assignee)===Number(current.id))}
+function toggleTask(id){const t=db.tasks.find(x=>x.id===id);if(t){if(current.role!=='admin'&&Number(t.assignee)!==Number(current.id))return alert('এই কাজটি পরিবর্তনের অনুমতি নেই');t.status=t.status==='done'?'open':'done';save();renderAll()}}
+function deleteTask(id){if(current.role!=='admin'||!confirm('এই কাজটি মুছবেন?'))return;db.tasks=db.tasks.filter(x=>x.id!==id);save();renderAll()}
+function renderTasks(){
+ const list=visibleTasks().filter(t=>taskFilter==='all'||t.status===taskFilter).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ $('taskList').innerHTML=list.length?list.map(t=>{const who=db.users.find(u=>Number(u.id)===Number(t.assignee));return `<div class="task"><div class="row"><div style="min-width:0"><div class="tasktitle">${esc(t.title)}</div><div class="muted">${esc(who?.name||'—')} · ${esc(t.date||'')} ${esc(t.time||'')}</div></div><span class="tag ${t.status==='done'?'done':''} ${t.priority==='জরুরি'?'high':''}">${t.status==='done'?'সম্পন্ন':esc(t.priority||'সাধারণ')}</span></div><div class="pillrow" style="margin-top:8px"><button class="secondary" onclick="toggleTask(${Number(t.id)})">${t.status==='done'?'আবার চালু':'সম্পন্ন করুন'}</button>${current.role==='admin'?`<button class="danger" onclick="deleteTask(${Number(t.id)})">মুছুন</button>`:''}</div></div>`}).join(''):'<div class="empty">এখনো কোনো কাজ নেই</div>';
+}
+function renderCalendar(){
+ const d=$('calendarDate').value||today(),list=visibleTasks().filter(t=>t.date===d);
+ $('calendarList').innerHTML=list.length?list.map(t=>`<div class="itemline"><b>${esc(t.time||'সময় নির্ধারিত নয়')} — ${esc(t.title)}</b><div class="muted">${esc(db.users.find(u=>Number(u.id)===Number(t.assignee))?.name||'')} · ${t.status==='done'?'সম্পন্ন':'চলমান'}</div></div>`).join(''):'<div class="empty">এই তারিখে কোনো কাজ নেই</div>';
+}
+function addCustomer(){
+ const name=$('customerName').value.trim(),phone=$('customerPhone').value.trim(),address=$('customerAddress').value.trim(),note=$('customerNote').value.trim();
+ if(!name)return alert('কাস্টমারের নাম লিখুন');
+ if(phone&&db.customers.some(c=>c.phone===phone))return alert('এই মোবাইল নম্বর দিয়ে কাস্টমার আগে যোগ করা হয়েছে');
+ db.customers.push({id:Date.now(),name,phone,address,note,createdAt:today(),by:current.id});save();
+ ['customerName','customerPhone','customerAddress','customerNote'].forEach(id=>$(id).value='');renderCustomers();alert('কাস্টমার সংরক্ষণ হয়েছে');
+}
+function deleteCustomer(id){
+ if(current.role!=='admin'||!confirm('এই কাস্টমারটি ও তার লেনদেন মুছবেন?'))return;
+ db.customers=db.customers.filter(c=>Number(c.id)!==Number(id));db.customerTransactions=db.customerTransactions.filter(t=>Number(t.customerId)!==Number(id));save();renderCustomers();
+}
+function customerTotals(id){
+ const tx=db.customerTransactions.filter(t=>id==null||Number(t.customerId)===Number(id));
+ return {
+  cash:tx.filter(t=>t.type==='cash').reduce((a,t)=>a+Number(t.amount||0),0),
+  due:tx.filter(t=>t.type==='due').reduce((a,t)=>a+Number(t.amount||0),0),
+  paid:tx.filter(t=>t.type==='payment').reduce((a,t)=>a+Number(t.amount||0),0)
+ };
+}
+function addCustomerTransaction(){
+ const customerId=Number($('ledgerCustomer').value),type=$('ledgerType').value,amount=Number($('ledgerAmount').value),note=$('ledgerNote').value.trim();
+ if(!db.customers.some(c=>Number(c.id)===customerId))return alert('আগে একজন কাস্টমার যোগ করুন');
+ if(!Number.isFinite(amount)||amount<=0)return alert('সঠিক টাকার পরিমাণ লিখুন');
+ const t=customerTotals(customerId);
+ if(type==='payment'&&amount>t.due-t.paid)return alert('জমার পরিমাণ বর্তমান বকেয়ার চেয়ে বেশি হতে পারবে না');
+ db.customerTransactions.push({id:Date.now(),customerId,type,amount,note,date:today(),by:current.id});
+ if(type==='cash')db.money.push({id:Date.now()+1,type:'income',amount,note:'কাস্টমার নগদ বিক্রি'+(note?' · '+note:''),date:today(),by:current.id});
+ if(type==='payment')db.money.push({id:Date.now()+2,type:'income',amount,note:'কাস্টমারের বাকি আদায়'+(note?' · '+note:''),date:today(),by:current.id});
+ save();$('ledgerAmount').value='';$('ledgerNote').value='';renderAll();alert('লেনদেন সংরক্ষণ হয়েছে');
+}
+function renderCustomers(){
+ const q=($('customerSearch').value||'').trim().toLowerCase();
+ const arr=db.customers.filter(c=>(c.name+' '+(c.phone||'')+' '+(c.address||'')).toLowerCase().includes(q)).sort((a,b)=>b.id-a.id);
+ const select=$('ledgerCustomer'),selected=select.value;
+ select.innerHTML=db.customers.length?db.customers.slice().sort((a,b)=>a.name.localeCompare(b.name,'bn')).map(c=>`<option value="${Number(c.id)}">${esc(c.name)}${c.phone?' — '+esc(c.phone):''}</option>`).join(''):'<option value="">আগে কাস্টমার যোগ করুন</option>';
+ if(selected&&db.customers.some(c=>String(c.id)===selected))select.value=selected;
+ const all=customerTotals(null);
+ $('customerCashTotal').textContent=money(all.cash);$('customerDueTotal').textContent=money(all.due);$('customerPaidTotal').textContent=money(all.paid);$('customerOutstandingTotal').textContent=money(all.due-all.paid);
+ $('customerList').innerHTML=arr.length?arr.map(c=>{
+  const t=customerTotals(c.id),history=db.customerTransactions.filter(x=>Number(x.customerId)===Number(c.id)).sort((a,b)=>b.id-a.id);
+  return `<div class="itemline"><div class="row"><b>${esc(c.name)}</b><span class="muted">${esc(c.createdAt||'')}</span></div>${c.phone?`<div class="muted">মোবাইল: ${esc(c.phone)}</div>`:''}${c.address?`<div class="muted">ঠিকানা: ${esc(c.address)}</div>`:''}${c.note?`<div class="muted">নোট: ${esc(c.note)}</div>`:''}<div class="formgrid" style="margin-top:10px"><div class="stat"><div class="cap">নগদ</div><b>${money(t.cash)}</b></div><div class="stat"><div class="cap">বাকি বিক্রি</div><b>${money(t.due)}</b></div><div class="stat"><div class="cap">জমা</div><b>${money(t.paid)}</b></div><div class="stat"><div class="cap">অবশিষ্ট বাকি</div><b style="color:${t.due-t.paid>0?'#d94b58':'#159b72'}">${money(t.due-t.paid)}</b></div></div><details><summary>লেনদেনের ইতিহাস (${history.length})</summary>${history.length?history.map(x=>`<div class="itemline row"><div><b>${x.type==='cash'?'নগদ বিক্রি':x.type==='due'?'বাকিতে বিক্রি':'বাকি জমা'}</b><div class="muted">${esc(x.date)}${x.note?' · '+esc(x.note):''}</div></div><b>${money(x.amount)}</b></div>`).join(''):'<div class="empty">কোনো লেনদেন নেই</div>'}</details>${current.role==='admin'?`<button class="danger" style="margin-top:8px" onclick="deleteCustomer(${Number(c.id)})">কাস্টমার মুছুন</button>`:''}</div>`;
+ }).join(''):'<div class="empty">এখনো কোনো কাস্টমার যোগ করা হয়নি</div>';
+}
+function addMoney(){
+ const amount=Number($('moneyAmount').value);
+ if(!Number.isFinite(amount)||amount<=0)return alert('সঠিক টাকার পরিমাণ দিন');
+ db.money.push({id:Date.now(),type:$('moneyType').value,amount,note:$('moneyNote').value.trim(),date:$('moneyDate').value||today(),by:current.id});
+ save();$('moneyAmount').value='';$('moneyNote').value='';renderAll();alert('হিসাব সংরক্ষণ হয়েছে');
+}
+function addRecharge(){
+ const phone=$('rechargePhone').value.trim(),operator=$('rechargeOperator').value,sale=Number($('rechargeSale').value),cost=Number($('rechargeCost').value),date=$('rechargeDate').value||today(),status=$('rechargeStatus').value,note=$('rechargeNote').value.trim();
+ if(!/^01[0-9]{9}$/.test(phone))return alert('সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর লিখুন');
+ if(!Number.isFinite(sale)||sale<=0||!Number.isFinite(cost)||cost<0)return alert('বিক্রয়মূল্য ও ক্রয়মূল্য সঠিকভাবে লিখুন');
+ const id=Date.now();db.mobileRecharges.push({id,phone,operator,sale,cost,profit:sale-cost,date,status,note,by:current.id});
+ if(status==='success'){
+  db.money.push({id:id+1,type:'income',amount:sale,note:'মোবাইল রিচার্জ বিক্রয় · '+phone,date,by:current.id,rechargeId:id});
+  if(cost>0)db.money.push({id:id+2,type:'expense',amount:cost,note:'মোবাইল রিচার্জ ক্রয়মূল্য · '+phone,date,by:current.id,rechargeId:id});
+ }
+ save();['rechargePhone','rechargeSale','rechargeCost','rechargeNote'].forEach(x=>$(x).value='');renderAll();alert('রিচার্জের হিসাব সংরক্ষণ হয়েছে');
+}
+function renderRecharges(){
+ const arr=db.mobileRecharges.slice().sort((a,b)=>b.id-a.id),ok=arr.filter(x=>x.status==='success');
+ const sales=ok.reduce((a,x)=>a+Number(x.sale||0),0),costs=ok.reduce((a,x)=>a+Number(x.cost||0),0);
+ $('rechargeCount').textContent=ok.length.toLocaleString('bn-BD');$('rechargeSales').textContent=money(sales);$('rechargeCosts').textContent=money(costs);$('rechargeProfit').textContent=money(sales-costs);
+ $('rechargeList').innerHTML=arr.length?arr.map(x=>`<div class="itemline"><div class="row"><b>${esc(x.phone)}</b><span class="tag ${x.status==='success'?'done':'high'}">${x.status==='success'?'সফল':'ব্যর্থ'}</span></div><div class="muted">${esc(x.operator)} · ${esc(x.date)}${x.note?' · '+esc(x.note):''}</div><div class="row" style="margin-top:7px"><span>বিক্রয় ${money(x.sale)} · খরচ ${money(x.cost)}</span><b style="color:${Number(x.profit)>=0?'#159b72':'#d94b58'}">লাভ ${money(x.profit)}</b></div><div class="muted">এন্ট্রি: ${esc(db.users.find(u=>Number(u.id)===Number(x.by))?.name||'—')}</div></div>`).join(''):'<div class="empty">এখনো কোনো রিচার্জ এন্ট্রি নেই</div>';
+}
+function totals(){return{income:db.money.filter(x=>x.type==='income').reduce((a,x)=>a+Number(x.amount||0),0),expense:db.money.filter(x=>x.type==='expense').reduce((a,x)=>a+Number(x.amount||0),0)}}
+function renderMoney(){
+ const {income,expense}=totals();
+ ['homeIncome','accIncome','repIncome'].forEach(id=>$(id).textContent=money(income));
+ ['homeExpense','accExpense','repExpense'].forEach(id=>$(id).textContent=money(expense));
+ $('homeBalance').textContent=money(income-expense);
+ const arr=db.money.slice().sort((a,b)=>b.id-a.id);
+ $('moneyList').innerHTML=arr.length?arr.map(x=>`<div class="itemline row"><div style="min-width:0"><b>${esc(x.note||'বিবরণ নেই')}</b><div class="muted">${esc(x.date)}</div></div><b style="color:${x.type==='income'?'#159b72':'#d94b58'};white-space:nowrap">${x.type==='income'?'+':'−'}${money(x.amount)}</b></div>`).join(''):'<div class="empty">কোনো হিসাব যোগ করা হয়নি</div>';
+}
+function renderTeam(){
+ const users=db.users.filter(u=>u.role==='employee');
+ $('teamList').innerHTML=users.length?users.map(u=>`<div class="itemline row"><div><b>${esc(u.name)}</b><div class="muted">@${esc(u.username)}</div></div><span class="tag">কর্মচারী</span></div>`).join(''):'<div class="empty">এখনো কর্মচারী যোগ করা হয়নি</div>';
+ const assignees=current.role==='admin'?db.users.filter(u=>u.role==='employee'):[current];
+ $('taskAssignee').innerHTML=assignees.map(u=>`<option value="${Number(u.id)}">${esc(u.name)}</option>`).join('');
+}
+function renderReports(){
+ const tasks=visibleTasks();$('repTotal').textContent=tasks.length;$('repDone').textContent=tasks.filter(t=>t.status==='done').length;
+ $('employeeReports').innerHTML=db.users.filter(u=>u.role==='employee').map(u=>{const ts=db.tasks.filter(t=>Number(t.assignee)===Number(u.id));return `<div class="itemline row"><div><b>${esc(u.name)}</b><div class="muted">মোট ${ts.length}টি কাজ</div></div><span class="tag done">${ts.filter(t=>t.status==='done').length} সম্পন্ন</span></div>`}).join('')||'<div class="empty">কর্মচারী নেই</div>';
+}
+function renderHome(){
+ const ts=visibleTasks();$('statTotal').textContent=ts.length;$('statDone').textContent=ts.filter(t=>t.status==='done').length;$('statOpen').textContent=ts.filter(t=>t.status!=='done').length;$('statTeam').textContent=db.users.filter(u=>u.role==='employee').length;
+ const todays=ts.filter(t=>t.date===today()).slice(0,5);
+ $('homeTasks').innerHTML=todays.length?todays.map(t=>`<div class="task row"><div style="min-width:0"><b>${esc(t.title)}</b><div class="muted">${esc(t.time||'সময় নেই')}</div></div><span class="tag ${t.status==='done'?'done':''}">${t.status==='done'?'সম্পন্ন':'চলমান'}</span></div>`).join(''):'<div class="empty">আজকের জন্য কোনো কাজ নেই</div>';
+}
+function renderAll(){renderHome();renderTasks();renderCalendar();renderMoney();renderCustomers();renderRecharges();if(current.role==='admin'){renderTeam();renderReports()}else{const own=[current];$('taskAssignee').innerHTML=own.map(u=>`<option value="${Number(u.id)}">${esc(u.name)}</option>`).join('')}}
+function changePassword(){
+ const p=$('newPassword').value;if(p.length<4)return alert('কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন');
+ const u=db.users.find(x=>Number(x.id)===Number(current.id));if(!u)return alert('অ্যাকাউন্ট পাওয়া যায়নি');
+ u.password=p;current=u;save();$('newPassword').value='';alert('এই ডিভাইসে পাসওয়ার্ড পরিবর্তন হয়েছে');
+}
+$('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+</script>
+</body>
+</html>
